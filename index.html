@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fates of Olympus</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+
+<div id="flash"></div>
+
+
+<div class="container">
+
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>📜 Rarities</h2>
+
+
+        <div onclick="showRarity('human')" class="rarity human">Human - 40%</div>
+        <div onclick="showRarity('common')" class="rarity common">Common - 28%</div>
+        <div onclick="showRarity('heroic')" class="rarity heroic">Heroic - 18%</div>
+        <div onclick="showRarity('mythic')" class="rarity mythic">Mythic - 9%</div>
+        <div onclick="showRarity('godly')" class="rarity godly">Godly - 3%</div>
+        <div onclick="showRarity('olympian')" class="rarity olympian">Olympian - 1.8%</div>
+        <div onclick="showRarity('primordial')" class="rarity primordial">Primordial - 0.2%</div>
+
+
+        <div id="list" class="list"></div>
+    </div>
+
+
+    <!-- GAME -->
+    <div class="game">
+
+
+        <h1>🎲 Fates of Olympus</h1>
+        <div id="coins" class="coins"> 🪙 Coins: 100</div>
+
+        <button onClick="earnCoins()" Class="earn-btn">
+            +25 Coins
+        </button>
+
+        <div id="result" class="result-box">Press Roll</div>
+
+
+        <button onclick="roll()" class="roll-btn">ROLL</button>
+
+
+    </div>
+
+
+</div>
+
+
+<script src="script.js"></script>
+
+<button onclick="earnCoins()"
+clsss="earn-btn">
++25 Coins</button>
+
+
+</body>
+</html>
