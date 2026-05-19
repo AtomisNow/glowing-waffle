@@ -1,3 +1,17 @@
+
+/* your other code below */
+
+
+button {
+  padding: 15px;
+}
+
+
+.card {
+  border-radius: 20px;
+}
+
+
 body {
     margin: 0;
     font-family: Arial;
@@ -135,4 +149,137 @@ body {
 
 .earn-btn:hover {
     transform: scale(1.05);
+}
+
+/* SMOOTHER RESULT BOX */
+.result-box {
+    position: relative;
+    overflow: hidden;
+
+    backdrop-filter: blur(10px);
+
+    border: 2px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 0 25px rgba(0,0,0,0.45);
+
+    transition:
+        transform 0.25s,
+        box-shadow 0.25s,
+        background 0.25s;
+}
+
+
+/* SPINNING LOOK */
+.spinning {
+    animation: pulse 0.4s infinite;
+}
+
+
+/* RARITY GLOWS */
+.human {
+    background: #555;
+    box-shadow: 0 0 18px rgba(120,120,120,0.5);
+}
+
+.common {
+    background: #2ecc71;
+    box-shadow: 0 0 22px rgba(46,204,113,0.6);
+}
+
+.heroic {
+    background: #3498db;
+    box-shadow: 0 0 22px rgba(52,152,219,0.6);
+}
+
+.mythic {
+    background: #9b59b6;
+    box-shadow: 0 0 26px rgba(155,89,182,0.7);
+}
+
+.godly {
+    background: gold;
+    color: black;
+
+    box-shadow:
+        0 0 10px gold,
+        0 0 30px gold;
+}
+
+.olympian {
+    background: #00c3ff;
+    color: black;
+
+    box-shadow:
+        0 0 12px #00c3ff,
+        0 0 40px #00c3ff;
+}
+
+.primordial {
+    background: purple;
+
+    box-shadow:
+        0 0 15px violet,
+        0 0 45px purple;
+}
+
+
+/* SIDEBAR GLOW */
+.rarity {
+    border: 1px solid rgba(255,255,255,0.08);
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.rarity:hover {
+    transform: scale(1.04);
+}
+
+
+/* BIG WIN SHAKE */
+.big-win {
+    animation:
+        winShake 0.12s 6,
+        glowPulse 0.7s infinite;
+}
+
+
+/* ANIMATIONS */
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.03);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes glowPulse {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes winShake {
+
+    0% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
+    100% { transform: translateX(-3px); }
 }

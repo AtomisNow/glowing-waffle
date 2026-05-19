@@ -2,6 +2,7 @@
 // ITEMS
 // =====================
 
+let isRolling = false;
 
 const humans = ["🪖 Soldier", "🌾 Farmer", "👨🏽 Mortal"];
 const commons = ["🐂 Minotaur", "🐎 Centaur", "👁️ Cyclops"];
@@ -12,85 +13,176 @@ const olympians = ["⚡ Zeus", "🔱 Poseidon", "💀 Hades"];
 const primordials = ["⌛ Cronus", "🌌 Uranus", "🌍 Gaia"];
 
 
+// =====================
+// COINS
+// =====================
+
+let coins = 100;
+const spinCost = 8;
 
 
 // =====================
 // ROLL SYSTEM
 // =====================
 
-let coins = 100; 
-const spinCost = 8;
-
 function roll() {
 
+    if (isRolling) return;
+isRolling = true;
 
     if (coins < spinCost) {
-    document.getElementById("result").innerText =
-        "❌ Not enough coins!";
-    return;
+
+        document.getElementById("result").innerText =
+            "❌ Not enough coins!";
+
+        return;
+    }
+
+    coins -= spinCost;
+
+    updateCoins();
+
+    let randomRoll = Math.random() * 100;
+
+    let rarity;
+    let pool;
+
+    if (randomRoll < 50) {
+    rarity = "Human";
+    pool = humans;
+}
+else if (randomRoll < 75) {
+    rarity = "Common";
+    pool = commons;
+}
+else if (randomRoll < 90) {
+    rarity = "Heroic";
+    pool = heroics;
+}
+else if (randomRoll < 97) {
+    rarity = "Mythic";
+    pool = mythics;
+}
+else if (randomRoll < 99.3) {
+    rarity = "Godly";
+    pool = godly;
+}
+else if (randomRoll < 99.85) {
+    rarity = "Olympian";
+    pool = olympians;
+}
+else {
+    rarity = "Primordial";
+    pool = primordials;
 }
 
+    let finalItem =
+        pool[Math.floor(Math.random() * pool.length)];
 
-coins -= spinCost;
+    let resultBox =
+        document.getElementById("result");
 
+    let allItems = [
 
-document.getElementById("coins").innerText =
-    `🪙 Coins: ${coins}`;
+        ...humans,
+        ...commons,
+        ...heroics,
+        ...mythics,
+        ...godly,
+        ...olympians,
+        ...primordials
+    ];
 
-    let roll = Math.random() * 100;
+    let spinTime = 0;
+    let totalSpin = 2400;
 
+    resultBox.className = "result-box spinning";
 
-    let rarity, pool;
+    function animateRoll() {
 
+        let fakeItem =
 
-    if (roll < 35) { rarity = "Human"; pool = humans; }
-    else if (roll < 60) { rarity = "Common"; pool = commons; }
-    else if (roll < 78) { rarity = "Heroic"; pool = heroics; }
-    else if (roll < 90) { rarity = "Mythic"; pool = mythics; }
-    else if (roll < 96) { rarity = "Godly"; pool = godly; }
-    else if (roll < 99) { rarity = "Olympian"; pool = olympians; }
-    else { rarity = "Primordial"; pool = primordials; }
+            allItems[
+                Math.floor(Math.random() * allItems.length)
+            ];
 
+        resultBox.innerText = fakeItem;
 
-    let item = pool[Math.floor(Math.random() * pool.length)];
+        spinTime += 100;
 
-    // SPIN EFFECT
-    let resultBox = document.getElementById("result");
-    let spins = 10;
-    let interval = setInterval(() => {
-        resultBox.innerText = pool[Math.floor(Math.random() * pool.length)];
-        spins--;
-        if (spins <= 0) {
-            clearInterval(interval);
+        let speed = 50 + (spinTime / 18);
 
+        if (spinTime < totalSpin) {
 
-            resultBox.innerText = `${item} (${rarity})`;
-            resultBox.className = "result-box " + rarity.toLowerCase();
+            setTimeout(animateRoll, speed);
+        }
 
+        else {
+
+            resultBox.innerText =
+                `${finalItem} (${rarity})`;
+
+            resultBox.className =
+                "result-box " + rarity.toLowerCase();
 
             flashEffect(rarity);
+
+            if (
+                rarity === "Olympian" ||
+                rarity === "Primordial"
+            ) {
+
+                resultBox.classList.add("big-win");
+
+                setTimeout(() => {
+
+                    resultBox.classList.remove("big-win");
+
+                }, 900);
+            }
+            isRolling = false;
         }
-    }, 80);
+    }
+
+    animateRoll();
 }
 
 
+// =====================
+// COIN DISPLAY
+// =====================
+
+function updateCoins() {
+
+    document.getElementById("coins").innerText =
+        `🪙 Coins: ${coins}`;
+}
 
 
 // =====================
-// SIDEBAR CLICK VIEW
+// EARN COINS
 // =====================
 
+function earnCoins() {
+
+    coins += 25;
+
+    updateCoins();
+}
+
+
+// =====================
+// SIDEBAR
+// =====================
 
 let currentOpen = "";
 
-
 function showRarity(type) {
-
 
     const rarityDiv = event.target;
 
-
     const data = {
+
         human: humans,
         common: commons,
         heroic: heroics,
@@ -100,80 +192,79 @@ function showRarity(type) {
         primordial: primordials
     };
 
-
-    // SAVE ORIGINAL TEXT IF NOT SAVED
     if (!rarityDiv.dataset.original) {
-        rarityDiv.dataset.original = rarityDiv.childNodes[0].textContent.trim();
+
+        rarityDiv.dataset.original =
+            rarityDiv.childNodes[0].textContent.trim();
     }
 
-
-    // CLOSE IF SAME TAB CLICKED
     if (currentOpen === type) {
-        rarityDiv.innerHTML = rarityDiv.dataset.original;
+
+        rarityDiv.innerHTML =
+            rarityDiv.dataset.original;
+
         currentOpen = "";
+
         return;
     }
 
-
-    // RESET ALL
     document.querySelectorAll(".rarity").forEach(div => {
 
-
         if (!div.dataset.original) {
-            div.dataset.original = div.childNodes[0].textContent.trim();
+
+            div.dataset.original =
+                div.childNodes[0].textContent.trim();
         }
 
-
-        div.innerHTML = div.dataset.original;
+        div.innerHTML =
+            div.dataset.original;
     });
-
 
     currentOpen = type;
 
-
-    // OPEN CURRENTl
     rarityDiv.innerHTML =
+
         rarityDiv.dataset.original +
+
         "<div class='mini-list'>" +
+
         data[type].join("<br>") +
+
         "</div>";
 }
-
-
-
 
 
 // =====================
 // FLASH EFFECT
 // =====================
 
-
 function flashEffect(rarity) {
-    let flash = document.getElementById("flash");
 
+    let flash =
+        document.getElementById("flash");
 
     let colors = {
-        olympian: "rgba(59, 255, 255, 0.6)",
+
+        olympian: "rgba(59,255,255,0.6)",
         primordial: "rgba(128,0,128,0.7)",
-        godly: "rgba(255,215,0,0.6)",
+        godly: "rgba(255,215,0,0.6)"
     };
 
+    if (!colors[rarity.toLowerCase()])
+        return;
 
-    if (!colors[rarity.toLowerCase()]) return;
+    flash.style.background =
+        colors[rarity.toLowerCase()];
 
-
-    flash.style.background = colors[rarity.toLowerCase()];
     flash.style.opacity = "1";
 
-
     setTimeout(() => {
+
         flash.style.opacity = "0";
+
     }, 300);
 }
 
-function earnCoins() {
-    coins += 25;
 
-    document.getElementById("coins").innerText=
-    `🪙 Coins: ${coins}`;
-}
+// START DISPLAY
+updateCoins();
